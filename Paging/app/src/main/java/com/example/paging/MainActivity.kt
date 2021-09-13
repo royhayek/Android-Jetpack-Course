@@ -1,41 +1,49 @@
 package com.example.paging
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
-import retrofit2.Call
-import retrofit2.Response
-import retrofit2.Callback
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val service = GitRepoServiceBuilder.buildService(GitRepoService::class.java)
+        val adapter = GitRepoAdapter()
+        rv_repositories.layoutManager = LinearLayoutManager(this)
 
-        val call = service.getRepositories(1, 10, "android")
+        val itemViewModel = ViewModelProviders.of(this).get(GitRepoViewModel::class.java)
 
-        call.enqueue(object: Callback<GitRepoResponse> {
-            override fun onResponse(
-                call: Call<GitRepoResponse>,
-                response: Response<GitRepoResponse>
-            ) {
-               if(response.isSuccessful) {
-                   val apiResponse = response.body()!!
-                   val responseItems = apiResponse.items
-
-                   val size = responseItems?.let {
-                       responseItems.size.toString()
-                   }
-
-                   Toast.makeText(this@MainActivity, size, Toast.LENGTH_LONG).show()
-               }
-            }
-
-            override fun onFailure(call: Call<GitRepoResponse>, t: Throwable) {
-
-            }
+        itemViewModel.gitRepoPagedList.observe(this, Observer {
+            adapter.submitList(it)
         })
+
+        rv_repositories.adapter = adapter
+
+//        val service = GitRepoServiceBuilder.buildService(GitRepoService::class.java)
+//        val call = service.getRepositories(1, 10, "android")
+//        call.enqueue(object: Callback<GitRepoResponse> {
+//
+//            override fun onResponse(call: Call<GitRepoResponse>, response: Response<GitRepoResponse>) {
+//
+//                if (response.isSuccessful) {
+//                    val apiResponse = response.body()!!
+//                    val responseItems = apiResponse.items
+//
+//                    val size = responseItems?.let {
+//                        responseItems.size.toString()
+//                    }
+//
+//                    Toast.makeText(this@MainActivity, size, Toast.LENGTH_LONG).show()
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<GitRepoResponse>, t: Throwable) {
+//            }
+//        })
     }
 }
