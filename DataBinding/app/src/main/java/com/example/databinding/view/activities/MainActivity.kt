@@ -1,12 +1,12 @@
-package com.example.databinding
+package com.example.databinding.view.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import com.example.databinding.R
 import com.example.databinding.databinding.ActivityMainBinding
+import com.example.databinding.handler.EventHandler
+import com.example.databinding.model.Contact
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

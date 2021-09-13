@@ -1,10 +1,11 @@
-package com.example.databinding
+package com.example.databinding.model
 
 import android.widget.ImageView
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.example.databinding.BR
 
 class Contact(_name: String, _email: String) : BaseObservable() {
 
