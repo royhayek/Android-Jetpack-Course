@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.androidjetpackcourse">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.DataBinding"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".view.activities.EditNoteActivity"
+            android:exported="true" />
+        <activity
+            android:name=".view.activities.NewNoteActivity"
+            android:exported="true" />
+        <activity
+            android:name=".view.activities.WorkManagerActivity"
+            android:exported="true" />
+        <activity
+            android:name=".view.activities.RoomActivity"
+            android:theme="@style/Theme.DataBinding.NoActionBar"
+            android:exported="true" />
+        <activity
+            android:name=".view.activities.PagingActivity"
+            android:exported="true" />
+        <activity
+            android:name=".view.activities.NavigationActivity"
+            android:exported="true" />
+        <activity
+            android:name=".view.activities.ViewModelActivity"
+            android:exported="true" />
+        <activity
+            android:name=".view.activities.LifeCycleAwareActivity"
+            android:exported="true" />
+        <activity
+            android:name=".view.activities.DataBindingActivity"
+            android:exported="true" />
+        <activity
+            android:name=".view.activities.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
