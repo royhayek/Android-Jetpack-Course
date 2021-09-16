@@ -1,6 +1,7 @@
 package com.example.androidjetpackcourse.data.network
 
 import com.example.androidjetpackcourse.data.model.GitRepoResponse
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 

@@ -22,7 +22,8 @@ object GitRepoServiceBuilder {
     private val okHttp = OkHttpClient.Builder().addInterceptor(logger)
 
     // Create Retrofit Builder
-    private val builder = Retrofit.Builder().baseUrl(URL)
+    private val builder = Retrofit.Builder()
+        .baseUrl(URL)
         .addConverterFactory(GsonConverterFactory.create())
         .client(okHttp.build())
 
