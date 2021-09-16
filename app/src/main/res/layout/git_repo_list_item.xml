@@ -34,7 +34,7 @@
                 android:id="@+id/repo_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='@{gitRepo.fullName, default="@string/sample_name"}'
+                android:text='@{gitRepo.full_name, default="@string/sample_name"}'
                 android:textColor="@color/titleColor"
                 android:textSize="24sp" />
 
@@ -72,7 +72,7 @@
                     android:id="@+id/repo_stars"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text='@{`` + gitRepo.stars, default="@string/star"}'
+                    android:text='@{`` + gitRepo.stargazers_count, default="@string/star"}'
                     android:textSize="16sp" />
 
                 <ImageView
@@ -87,7 +87,7 @@
                     android:id="@+id/repo_forks"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text='@{`` + gitRepo.forks, default="@string/forks"}'
+                    android:text='@{`` + gitRepo.fork_count, default="@string/forks"}'
                     android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>
