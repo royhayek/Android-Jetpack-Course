@@ -16,10 +16,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PagingActivity : AppCompatActivity() {
     private lateinit var binding : ActivityPagingBinding
     lateinit var recyclerViewAdapter: GitRepoAdapter
+    private val gitRepoViewModel by viewModel<GitRepoViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,8 +42,6 @@ class PagingActivity : AppCompatActivity() {
     }
 
     private fun initViewModel() {
-        val viewModel  = ViewModelProvider(this).get(GitRepoViewModel::class.java)
-
         // sticking this coroutine to the lifecycle of this activity
         // if the activity is destroyed  everything launched inside this scope will be destroyed
         // here we didn't use the GlobalScope to prevent memory leaks because when this activity
@@ -49,7 +49,7 @@ class PagingActivity : AppCompatActivity() {
         lifecycleScope.launch {
             // Here we are observing the PageData stream
             // once we have the results we send the list to the adapter by calling submitData
-            viewModel.getListData().observe(this@PagingActivity, {
+            gitRepoViewModel.getListData().observe(this@PagingActivity, {
                 recyclerViewAdapter.submitData(lifecycle, it)
             })
         }

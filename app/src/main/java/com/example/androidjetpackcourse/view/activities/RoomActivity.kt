@@ -11,17 +11,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androidjetpackcourse.R
 import com.example.androidjetpackcourse.adapters.NoteListAdapter
 import com.example.androidjetpackcourse.data.database.entities.Note
+import com.example.androidjetpackcourse.viewmodel.GitRepoViewModel
 import com.example.androidjetpackcourse.viewmodel.NoteViewModel
 import kotlinx.android.synthetic.main.activity_room.*
 import kotlinx.android.synthetic.main.content_main.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
 
 class RoomActivity : AppCompatActivity(), NoteListAdapter.OnDeleteClickListener {
 
-    private lateinit var noteViewModel: NoteViewModel
+    private val noteViewModel by viewModel<NoteViewModel>()
 
-       private val secondActivityWithResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+    private val secondActivityWithResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
 
         println(result.data?.extras)
 
@@ -75,9 +77,6 @@ class RoomActivity : AppCompatActivity(), NoteListAdapter.OnDeleteClickListener 
         recyclerview.layoutManager = LinearLayoutManager(this)
 
         val noteListAdapter = NoteListAdapter(this@RoomActivity, this@RoomActivity, secondActivityWithResult)
-
-
-        noteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
 
         noteViewModel.allNotes.observe(this,  { notes ->
             notes?.let {
