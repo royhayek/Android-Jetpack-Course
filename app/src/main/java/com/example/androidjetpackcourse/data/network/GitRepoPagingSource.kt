@@ -5,7 +5,7 @@ import com.bumptech.glide.load.HttpException
 import com.example.androidjetpackcourse.data.model.GitRepo
 import java.io.IOException
 
-class GitRepoPagingSource(private val service: GitRepoService) : PagingSource<Int, GitRepo>() {
+class GitRepoPagingSource(private val service: GitRepoApi) : PagingSource<Int, GitRepo>() {
 
     override fun getRefreshKey(state: PagingState<Int, GitRepo>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
