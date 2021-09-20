@@ -26,9 +26,7 @@ class GitRepoPagingSource(private val service: GitRepoApi) : PagingSource<Int, G
                 prevKey = if (page == FIRST_PAGE) null else page - 1,
                 nextKey = if (repos.isEmpty()) null else page + 1
             )
-        }  catch (exception: IOException) {
-            return LoadResult.Error(exception)
-        } catch (exception: HttpException) {
+        }  catch (exception: Exception) {
             return LoadResult.Error(exception)
         }
     }
