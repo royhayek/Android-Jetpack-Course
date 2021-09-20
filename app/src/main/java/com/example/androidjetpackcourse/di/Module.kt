@@ -2,10 +2,12 @@ package com.example.androidjetpackcourse.di
 
 import android.app.Application
 import androidx.room.Room
+import com.example.androidjetpackcourse.BuildConfig
 import com.example.androidjetpackcourse.data.database.NoteDao
 import com.example.androidjetpackcourse.data.database.NoteRoomDatabase
 import com.example.androidjetpackcourse.data.network.GitRepoApi
 import com.example.androidjetpackcourse.data.network.GitRepoRepository
+import com.example.androidjetpackcourse.handlers.ResponseHandler
 import com.example.androidjetpackcourse.viewmodel.GitRepoViewModel
 import com.example.androidjetpackcourse.viewmodel.NoteViewModel
 import com.google.gson.FieldNamingPolicy
@@ -78,7 +80,7 @@ val retrofitModule = module {
 
     fun provideRetrofit(factory: Gson, client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://api.github.com/")
+            .baseUrl(BuildConfig.API_URL)
             .addConverterFactory(GsonConverterFactory.create(factory))
             .client(client)
             .build()
@@ -89,4 +91,5 @@ val retrofitModule = module {
     single { provideGson() }
     single { provideHttpClient() }
     single { provideRetrofit(get(), get()) }
+    factory { ResponseHandler() }
 }
