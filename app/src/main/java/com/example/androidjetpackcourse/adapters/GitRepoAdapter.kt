@@ -22,7 +22,6 @@ class GitRepoAdapter : PagingDataAdapter<GitRepo, GitRepoAdapter.RepoViewHolder>
                 bind(repo)
             }
         }
-
     }
 
     class RepoViewHolder(val binding: GitRepoListItemBinding) : RecyclerView.ViewHolder(binding.root) {
