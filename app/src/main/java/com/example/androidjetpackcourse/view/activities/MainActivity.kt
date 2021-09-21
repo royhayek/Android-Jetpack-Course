@@ -3,10 +3,14 @@ package com.example.androidjetpackcourse.view.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.androidjetpackcourse.R
 import com.example.androidjetpackcourse.databinding.ActivityMainBinding
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -16,6 +20,20 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("EXCEPTION", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+
+            // Log and toast
+            Log.d("TOKEN", token!!)
+            Toast.makeText(baseContext, token!!, Toast.LENGTH_SHORT).show()
+        })
 
         binding.btDataBindingActivity.setOnClickListener { navigateToActivity(DataBindingActivity()) }
         binding.btLifecycleAwareActivity.setOnClickListener { navigateToActivity(LifeCycleAwareActivity()) }
