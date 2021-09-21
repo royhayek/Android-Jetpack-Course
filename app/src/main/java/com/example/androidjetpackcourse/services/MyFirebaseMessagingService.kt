@@ -26,27 +26,29 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
 
         if (remoteMessage.notification != null) {
-            showNotification(
-                remoteMessage.notification!!.title,
-                remoteMessage.notification!!.body
-            )
+            showNotification(remoteMessage)
         }
     }
 
-    private fun showNotification(title: String?, body: String?) {
-        val intent = Intent(this, PagingActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+    private fun showNotification(remoteMessage: RemoteMessage) {
 
         val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
         val builder : NotificationCompat.Builder = NotificationCompat.Builder(applicationContext, channelId)
             .setSmallIcon(R.mipmap.ic_launcher)
-            .setContentTitle(title)
-            .setContentText(body)
+            .setContentTitle(remoteMessage.notification?.title)
+            .setContentText(remoteMessage.notification?.body)
             .setAutoCancel(true)
             .setSound(soundUri)
-            .setContentIntent(pendingIntent)
+
+        if(remoteMessage.data.isNotEmpty()) {
+            if (remoteMessage.data["click_action"] == "PAGINGACTIVITY") {
+                val intent = Intent(this, PagingActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+                builder.setContentIntent(pendingIntent)
+            }
+        }
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
