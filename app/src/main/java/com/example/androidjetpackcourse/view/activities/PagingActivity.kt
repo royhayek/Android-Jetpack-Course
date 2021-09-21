@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.androidjetpackcourse.adapters.GitRepoLoadStateAdapter
 import com.example.androidjetpackcourse.databinding.ActivityPagingBinding
 import com.example.androidjetpackcourse.viewmodel.GitRepoViewModel
 import kotlinx.android.synthetic.main.activity_paging.*
@@ -33,7 +34,9 @@ class PagingActivity : AppCompatActivity() {
         rv_repositories.apply {
             layoutManager = LinearLayoutManager(this@PagingActivity)
             recyclerViewAdapter = GitRepoAdapter()
-            adapter = recyclerViewAdapter
+            adapter = recyclerViewAdapter.withLoadStateFooter(
+                footer = GitRepoLoadStateAdapter { recyclerViewAdapter.retry() }
+            )
         }
 
         recyclerViewAdapter.addLoadStateListener { loadState ->
