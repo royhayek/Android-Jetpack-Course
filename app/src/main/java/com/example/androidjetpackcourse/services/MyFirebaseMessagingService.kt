@@ -16,6 +16,7 @@ import com.google.firebase.messaging.RemoteMessage
 
 const val channelId = "notification_channel"
 const val channelName = "com.example.androidjetpackcourse"
+const val click_action = "PAGINGACTIVITY"
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -42,7 +43,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setSound(soundUri)
 
         if(remoteMessage.data.isNotEmpty()) {
-            if (remoteMessage.data["click_action"] == "PAGINGACTIVITY") {
+            if (remoteMessage.data["click_action"] == click_action) {
                 val intent = Intent(this, PagingActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
