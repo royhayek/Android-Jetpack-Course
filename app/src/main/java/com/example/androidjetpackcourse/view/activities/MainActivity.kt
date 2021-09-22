@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.androidjetpackcourse.R
@@ -27,12 +26,8 @@ class MainActivity : AppCompatActivity() {
                 return@OnCompleteListener
             }
 
-            // Get new FCM registration token
             val token = task.result
-
-            // Log and toast
             Log.d("TOKEN", token!!)
-            Toast.makeText(baseContext, token!!, Toast.LENGTH_SHORT).show()
         })
 
         binding.btDataBindingActivity.setOnClickListener { navigateToActivity(DataBindingActivity()) }
@@ -44,10 +39,8 @@ class MainActivity : AppCompatActivity() {
         binding.btWorkManagerActivity.setOnClickListener { navigateToActivity(WorkManagerActivity()) }
     }
 
-
     private fun navigateToActivity(activity: Activity) {
         val intent = Intent(this, activity::class.java)
         startActivity(intent)
-
     }
 }
