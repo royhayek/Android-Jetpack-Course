@@ -1,22 +1,26 @@
 package com.example.androidjetpackcourse.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.androidjetpackcourse.data.model.weather.Location
 import com.example.androidjetpackcourse.data.network.WeatherRepository
 import com.example.androidjetpackcourse.handlers.Resource
 import kotlinx.coroutines.*
 
-class WeatherViewModel(private val repository: WeatherRepository) : ViewModel(){
+class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() {
 
-    fun getWeatherLocations(key: String, q: String) = liveData(Dispatchers.IO) {
-        emit(Resource.loading(data = null))
-        try {
-            emit(Resource.success(data = repository.getWeatherLocations(key, q)))
-        } catch (exception: Exception) {
-            emit(Resource.error(msg = exception.message ?: "Error Occurred!", data = null))
+    private val _locationsList: MutableLiveData<Resource<List<Location>>> = MutableLiveData()
+    val locationsList: LiveData<Resource<List<Location>>>
+        get() = _locationsList
+
+    fun getWeatherLocations(key: String, q: String) {
+        viewModelScope.launch {
+            _locationsList.postValue(Resource.loading(null))
+            try {
+                val response = repository.getWeatherLocations(key, q)
+                _locationsList.postValue(Resource.success(response))
+            } catch (e: Exception) {
+                _locationsList.postValue(Resource.error(e.toString(), null))
+            }
         }
     }
 }

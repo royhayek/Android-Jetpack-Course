@@ -38,6 +38,7 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupUI()
+        observeData()
     }
 
     private fun setupUI() {
@@ -47,7 +48,8 @@ class SearchFragment : Fragment() {
 
         et_location.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                getData(s.toString())
+                if(s.toString().isNotEmpty())
+                weatherViewModel.getWeatherLocations("d6ebf978ddcf44d19bf131158212309", s.toString())
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -59,8 +61,9 @@ class SearchFragment : Fragment() {
         })
     }
 
-    private fun getData(s: String) {
-        weatherViewModel.getWeatherLocations(key = "d6ebf978ddcf44d19bf131158212309", q= s).observe(viewLifecycleOwner, Observer {
+
+    private fun observeData() {
+        weatherViewModel.locationsList.observe(viewLifecycleOwner, Observer {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
