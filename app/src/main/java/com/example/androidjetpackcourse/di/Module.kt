@@ -7,9 +7,12 @@ import com.example.androidjetpackcourse.data.database.NoteDao
 import com.example.androidjetpackcourse.data.database.NoteRoomDatabase
 import com.example.androidjetpackcourse.data.network.GitRepoApi
 import com.example.androidjetpackcourse.data.network.GitRepoRepository
+import com.example.androidjetpackcourse.data.network.WeatherApi
+import com.example.androidjetpackcourse.data.network.WeatherRepository
 import com.example.androidjetpackcourse.handlers.ResponseHandler
 import com.example.androidjetpackcourse.viewmodel.GitRepoViewModel
 import com.example.androidjetpackcourse.viewmodel.NoteViewModel
+import com.example.androidjetpackcourse.viewmodel.WeatherViewModel
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -31,12 +34,20 @@ val viewModelModule = module {
     viewModel {
         NoteViewModel(get())
     }
+
+    viewModel {
+        WeatherViewModel(get())
+    }
 }
 
 
 val repositoryModule = module {
     single {
         GitRepoRepository(get())
+    }
+
+    single {
+        WeatherRepository(get())
     }
 }
 
@@ -45,7 +56,12 @@ val apiModule = module {
         return retrofit.create(GitRepoApi::class.java)
     }
 
+    fun provideWeatherApi(retrofit: Retrofit): WeatherApi {
+        return retrofit.create(WeatherApi::class.java)
+    }
+
     single { provideUseApi(get()) }
+    single { provideWeatherApi(get()) }
 }
 
 val databaseModule = module {
@@ -74,13 +90,12 @@ val retrofitModule = module {
 
     fun provideHttpClient(): OkHttpClient {
         val okHttpClientBuilder = OkHttpClient.Builder()
-
         return okHttpClientBuilder.build()
     }
 
     fun provideRetrofit(factory: Gson, client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BuildConfig.API_URL)
+            .baseUrl(BuildConfig.WEATHER_API_URL)
             .addConverterFactory(GsonConverterFactory.create(factory))
             .client(client)
             .build()
