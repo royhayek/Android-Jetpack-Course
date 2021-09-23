@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "445111012229",
+    "project_id": "android-jetpack-course",
+    "storage_bucket": "android-jetpack-course.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:445111012229:android:2569e20a7e2a2732e952ec",
+        "android_client_info": {
+          "package_name": "com.example.androidjetpackcourse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "445111012229-uod77amj8aq1dh8rjbfnid6tjcapvu98.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0xwdBT5Iq8B3Zh5mQ-RoYc-CZMiNDYPc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "445111012229-uod77amj8aq1dh8rjbfnid6tjcapvu98.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
