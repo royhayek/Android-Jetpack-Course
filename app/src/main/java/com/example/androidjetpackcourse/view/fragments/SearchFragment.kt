@@ -3,18 +3,25 @@ package com.example.androidjetpackcourse.view.fragments
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androidjetpackcourse.adapters.WeatherLocationAdapter
+import com.example.androidjetpackcourse.data.model.weather.Location
 import com.example.androidjetpackcourse.databinding.FragmentSearchBinding
+import com.example.androidjetpackcourse.handlers.Status
+import com.example.androidjetpackcourse.viewmodel.WeatherViewModel
 import kotlinx.android.synthetic.main.fragment_search.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment() : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private lateinit var adapter: WeatherLocationAdapter
+    private val weatherViewModel by viewModel<WeatherViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -26,6 +33,7 @@ class SearchFragment() : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupUI()
+        observeData()
     }
 
     private fun setupUI() {
@@ -35,7 +43,8 @@ class SearchFragment() : Fragment() {
 
         et_location.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-
+                if(s.toString().isNotEmpty())
+                    weatherViewModel.getWeatherLocations(s.toString())
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -47,4 +56,32 @@ class SearchFragment() : Fragment() {
         })
     }
 
+    private fun observeData() {
+        weatherViewModel.locationsList.observe(viewLifecycleOwner, Observer {
+            it?.let { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        rv_locations.visibility = View.VISIBLE
+                        pb_loading.visibility = View.GONE
+                        resource.data?.let { locations -> retrieveList(locations) }
+                    }
+                    Status.ERROR -> {
+                        rv_locations.visibility = View.VISIBLE
+                        pb_loading.visibility = View.GONE
+                        Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
+                    }
+                    Status.LOADING -> {
+                        pb_loading.visibility = View.VISIBLE
+                        rv_locations.visibility = View.GONE
+                    }
+                }
+            }
+        })
+    }
+
+    private fun retrieveList(locations: List<Location>) {
+        adapter.apply {
+            setLocations(locations)
+        }
+    }
 }
