@@ -25,7 +25,6 @@ class SearchFragment() : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private lateinit var adapter: WeatherLocationAdapter
     private val weatherViewModel by viewModel<WeatherViewModel>()
-    private val interceptor: BaseUrlInterceptor by inject()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -35,8 +34,6 @@ class SearchFragment() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        interceptor.setHost(BuildConfig.WEATHER_API_URL)
 
         setupUI()
         observeData()
