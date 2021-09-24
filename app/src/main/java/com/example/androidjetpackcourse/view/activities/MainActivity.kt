@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         binding.btPagingActivity.setOnClickListener { navigateToActivity(PagingActivity()) }
         binding.btRoomActivity.setOnClickListener { navigateToActivity(RoomActivity()) }
         binding.btWorkManagerActivity.setOnClickListener { navigateToActivity(WorkManagerActivity()) }
+        binding.btSearchActivity.setOnClickListener { navigateToActivity(SearchActivity()) }
     }
 
     private fun navigateToActivity(activity: Activity) {
