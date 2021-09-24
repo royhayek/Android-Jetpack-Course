@@ -10,18 +10,22 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.androidjetpackcourse.BuildConfig
 import com.example.androidjetpackcourse.adapters.WeatherLocationAdapter
 import com.example.androidjetpackcourse.data.model.weather.Location
 import com.example.androidjetpackcourse.databinding.FragmentSearchBinding
+import com.example.androidjetpackcourse.di.BaseUrlInterceptor
 import com.example.androidjetpackcourse.handlers.Status
 import com.example.androidjetpackcourse.viewmodel.WeatherViewModel
 import kotlinx.android.synthetic.main.fragment_search.*
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment() : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private lateinit var adapter: WeatherLocationAdapter
     private val weatherViewModel by viewModel<WeatherViewModel>()
+    private val interceptor: BaseUrlInterceptor by inject()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -31,6 +35,8 @@ class SearchFragment() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        interceptor.setHost(BuildConfig.WEATHER_API_URL)
 
         setupUI()
         observeData()
