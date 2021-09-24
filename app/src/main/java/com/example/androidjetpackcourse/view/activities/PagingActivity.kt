@@ -8,23 +8,28 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.androidjetpackcourse.BuildConfig
 import com.example.androidjetpackcourse.adapters.GitRepoLoadStateAdapter
 import com.example.androidjetpackcourse.databinding.ActivityPagingBinding
+import com.example.androidjetpackcourse.di.BaseUrlInterceptor
 import com.example.androidjetpackcourse.viewmodel.GitRepoViewModel
 import kotlinx.android.synthetic.main.activity_paging.*
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PagingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPagingBinding
     lateinit var recyclerViewAdapter: GitRepoAdapter
     private val gitRepoViewModel by viewModel<GitRepoViewModel>()
-
+    private val interceptor: BaseUrlInterceptor by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPagingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        interceptor.setHost(BuildConfig.API_URL)
 
         initRecyclerView()
         initViewModel()
