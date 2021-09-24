@@ -3,7 +3,7 @@
     package="com.example.androidjetpackcourse">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".base.App"
@@ -15,6 +15,9 @@
         android:theme="@style/Theme.DataBinding"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".view.activities.SearchActivity"
+            android:exported="true" />
+        <activity
             android:name=".view.activities.EditNoteActivity"
             android:exported="true" />
         <activity
@@ -25,8 +28,8 @@
             android:exported="true" />
         <activity
             android:name=".view.activities.RoomActivity"
-            android:theme="@style/Theme.DataBinding.NoActionBar"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.DataBinding.NoActionBar" />
         <activity
             android:name=".view.activities.PagingActivity"
             android:exported="true" />
@@ -51,24 +54,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
-             See README(https://goo.gl/l4GJaQ) for more. -->
+        <!--
+ Set custom default icon. This is used when no icon is set for incoming notification messages.
+             See README(https://goo.gl/l4GJaQ) for more.
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/jetpack_logo" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <!--
+ Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/purple_700" />
+
         <service
             android:name=".services.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service android:name=".services.NotificationService" />
     </application>
 
