@@ -16,7 +16,7 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".view.activities.WeatherDetailsActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:theme="@style/Theme.DataBinding.NoActionBar"
             android:exported="true" />
         <activity
             android:name=".view.activities.SearchActivity"
