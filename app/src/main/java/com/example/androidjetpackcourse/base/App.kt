@@ -1,13 +1,18 @@
 package com.example.androidjetpackcourse.base
 
 import android.app.Application
+import android.content.Context
+import android.media.MediaPlayer
+import com.example.androidjetpackcourse.R
 import com.example.androidjetpackcourse.di.*
+import com.example.androidjetpackcourse.utils.MPSingleton
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 
 class App : Application() {
+
     override fun onCreate() {
         super.onCreate()
         startKoin {
@@ -15,5 +20,13 @@ class App : Application() {
             androidContext(this@App)
             modules(listOf(repositoryModule, viewModelModule, retrofitModule, apiModule, databaseModule))
         }
+
+        context = this
+        media = MPSingleton.mediaPlayer
+    }
+
+    companion object {
+        lateinit var context: App
+        lateinit var media: MediaPlayer
     }
 }

@@ -15,6 +15,10 @@
         android:theme="@style/Theme.DataBinding"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".view.activities.WeatherDetailsActivity"
+            android:theme="@style/Theme.DataBinding.NoActionBar"
+            android:exported="true" />
+        <activity
             android:name=".view.activities.SearchActivity"
             android:exported="true" />
         <activity

@@ -1,10 +1,12 @@
 package com.example.androidjetpackcourse.adapters
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidjetpackcourse.data.model.weather.Location
 import com.example.androidjetpackcourse.databinding.WeatherLocationItemBinding
+import com.example.androidjetpackcourse.view.activities.WeatherDetailsActivity
 
 
 class WeatherLocationAdapter() : RecyclerView.Adapter<WeatherLocationAdapter.LocationViewHolder>() {
@@ -20,6 +22,7 @@ class WeatherLocationAdapter() : RecyclerView.Adapter<WeatherLocationAdapter.Loc
         val location = locations[position]
         holder.apply {
             bind(location)
+            setListeners(location)
         }
     }
 
@@ -36,6 +39,14 @@ class WeatherLocationAdapter() : RecyclerView.Adapter<WeatherLocationAdapter.Loc
         fun bind(loc: Location) {
             binding.apply {
                 location = loc
+            }
+        }
+
+        fun setListeners(location: Location) {
+            itemView.setOnClickListener {
+                val intent = Intent(binding.root.context, WeatherDetailsActivity::class.java)
+                intent.putExtra("region", location.region)
+                binding.root.context.startActivity(intent)
             }
         }
     }
