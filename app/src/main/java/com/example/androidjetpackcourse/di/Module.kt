@@ -43,11 +43,11 @@ val viewModelModule = module {
 
 val repositoryModule = module {
     single {
-        GitRepoRepository(get())
+        GitRepoRepository(get(), get())
     }
 
     single {
-        WeatherRepository(get())
+        WeatherRepository(get(), get())
     }
 }
 

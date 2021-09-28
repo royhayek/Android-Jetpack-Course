@@ -18,13 +18,14 @@ class BaseUrlInterceptor : Interceptor {
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
+        val host = if (this.host != null) this.host else BuildConfig.API_URL.toHttpUrlOrNull()
         val newRequest = host?.let {
             val builder = chain.request().url.newBuilder()
                 .scheme(it.scheme)
                 .host(it.toUrl().toURI().host)
                 .port(it.port)
 
-            if(host?.toUrl()?.toURI().toString() == BuildConfig.WEATHER_API_URL)
+            if (host.toUrl().toURI().toString() == BuildConfig.WEATHER_API_URL)
                 builder.addQueryParameter("key", BuildConfig.WEATHER_API_KEY)
 
             val newUrl = builder.build()

@@ -22,14 +22,11 @@ class PagingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPagingBinding
     lateinit var recyclerViewAdapter: GitRepoAdapter
     private val gitRepoViewModel by viewModel<GitRepoViewModel>()
-    private val interceptor: BaseUrlInterceptor by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPagingBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        interceptor.setHost(BuildConfig.API_URL)
 
         initRecyclerView()
         initViewModel()
