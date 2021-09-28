@@ -12,6 +12,7 @@ import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import com.example.androidjetpackcourse.Constants
 import com.example.androidjetpackcourse.R
+import com.example.androidjetpackcourse.base.App
 import com.example.androidjetpackcourse.view.activities.MainActivity
 import com.example.androidjetpackcourse.view.activities.PagingActivity
 import com.google.firebase.messaging.RemoteMessage
@@ -20,13 +21,13 @@ const val TAG = "Notification Service"
 const val PAGINGACTIVITY = "PAGINGACTIVITY"
 
 class NotificationService : Service() {
-    private var mMediaPlayer: MediaPlayer? = null
     private var channelId = "channelId"
-    private var playedAtLeastOnce = false
     private var remoteMessage: RemoteMessage? = null
+    var mMediaPlayer = App.media
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val intentExtra: RemoteMessage? = intent?.getParcelableExtra("remoteMessage")
+
 
         when {
             intent?.action.equals(Constants.STARTFOREGROUND_ACTION) -> {
@@ -40,14 +41,10 @@ class NotificationService : Service() {
             intent?.action.equals(Constants.PLAY_ACTION) -> {
                 Log.i(TAG, "Clicked Play")
 
-                if (mMediaPlayer == null) {
-                    mMediaPlayer = MediaPlayer.create(this, R.raw.song1)
-                    mMediaPlayer!!.start()
-                    playedAtLeastOnce = true
-                } else if (mMediaPlayer != null && mMediaPlayer!!.isPlaying) {
-                    mMediaPlayer!!.pause()
+                if (mMediaPlayer.isPlaying) {
+                    mMediaPlayer.pause()
                 } else {
-                    mMediaPlayer!!.start()
+                    mMediaPlayer.start()
                 }
 
                 showNotification(remoteMessage)
@@ -61,11 +58,9 @@ class NotificationService : Service() {
             ) -> {
                 Log.i(TAG, "Received Stop Foreground Intent")
 
-                if (mMediaPlayer != null) {
-                    mMediaPlayer!!.stop()
-                    mMediaPlayer!!.release()
-                    mMediaPlayer = null
-                }
+                mMediaPlayer.stop()
+                mMediaPlayer.release()
+                //  mMediaPlayer = null
 
                 stopForeground(true)
                 stopSelf()
