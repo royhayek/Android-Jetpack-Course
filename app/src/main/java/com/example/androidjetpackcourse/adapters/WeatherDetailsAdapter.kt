@@ -4,10 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageView
 import com.example.androidjetpackcourse.data.model.weather.WeatherDetail
 import androidx.databinding.DataBindingUtil
 import com.example.androidjetpackcourse.R
 import com.example.androidjetpackcourse.databinding.GridviewDetailItemBinding
+import androidx.databinding.BindingAdapter
 
 class WeatherDetailsAdapter(private val detailsList: ArrayList<WeatherDetail>) : BaseAdapter() {
     private lateinit var binding: GridviewDetailItemBinding
@@ -36,10 +38,15 @@ class WeatherDetailsAdapter(private val detailsList: ArrayList<WeatherDetail>) :
         }
 
         val detail = detailsList[position]
-        binding.ivDetailIcon.setImageResource(detail.icon)
-        binding.tvDetailTitle.text = detail.title
-        binding.tvDetailValue.text = detail.value
+        binding.weatherDetail = detail
 
         return binding.root
+    }
+
+    companion object {
+        @JvmStatic @BindingAdapter("icon")
+        fun setImageResource(imageView: ImageView, resource: Int) {
+            imageView.setImageResource(resource)
+        }
     }
 }

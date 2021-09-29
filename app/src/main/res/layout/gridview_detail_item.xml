@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="com.example.androidjetpackcourse.data.model.weather.WeatherDetail"/>
+
+        <variable
+            name="weatherDetail"
+            type="WeatherDetail" />
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,13 +24,14 @@
             android:id="@+id/iv_detail_icon"
             android:layout_width="25dp"
             android:layout_height="25dp"
+            app:icon="@{weatherDetail.icon}"
             android:src="@drawable/ic_sunrise" />
 
         <TextView
             android:id="@+id/tv_detail_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="title"
+            android:text="@{weatherDetail.title, default=title}"
             android:textColor="@color/white"
             android:textSize="12dp" />
 
@@ -29,7 +39,7 @@
             android:id="@+id/tv_detail_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="value"
+            android:text="@{weatherDetail.value, default=value}"
             android:textColor="@color/white"
             android:textSize="14dp" />
 
